@@ -1,6 +1,8 @@
+import { useState } from "react";
+
 import {
-  Container,
-  Typography,
+    Container,
+    Typography,
 } from "@mui/material";
 
 import Navbar from "../components/layout/Navbar";
@@ -10,37 +12,59 @@ import FilterBar from "../components/filters/FilterBar";
 import ProductGrid from "../components/products/ProductGrid";
 
 const Home = () => {
-  return (
-    <>
-      <Navbar />
+    const [filters, setFilters] = useState({
+        search: "",
+        minPrice: "",
+        maxPrice: "",
+        sortBy: "price",
+        sortOrder: "asc",
+    });
 
-      <Container
-        maxWidth="xl"
-        sx={{
-          py: {
-            xs: 2,
-            md: 4,
-          },
-        }}
-      >
-        <SearchBar />
+    return (
+        <>
+            <Navbar />
 
-        <CategoryTabs />
+            <Container
+                maxWidth="xl"
+                sx={{
+                    py: {
+                        xs: 2,
+                        md: 4,
+                    },
+                }}
+            >
+                <SearchBar
+                    search={filters.search}
+                    setSearch={(value) =>
+                        setFilters({
+                            ...filters,
+                            search: value,
+                        })
+                    }
+                />
 
-        <FilterBar />
+                <CategoryTabs />
 
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          mt={4}
-        >
-          Found 450 products
-        </Typography>
+                <FilterBar
+                    filters={filters}
+                    setFilters={setFilters}
+                    onApply={() => { }}
+                />
 
-        <ProductGrid />
-      </Container>
-    </>
-  );
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: "bold",
+                        mt: 4,
+                    }}
+                >
+                    Found 450 products
+                </Typography>
+
+                <ProductGrid filters={filters} />
+            </Container>
+        </>
+    );
 };
 
 export default Home;

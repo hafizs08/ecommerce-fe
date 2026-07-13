@@ -7,7 +7,15 @@ import {
   Stack,
 } from "@mui/material";
 
-const SearchBar = () => {
+interface Props {
+  search: string;
+  setSearch: (value: string) => void;
+}
+
+const SearchBar = ({
+  search,
+  setSearch,
+}: Props) => {
   return (
     <Paper sx={{ p: 2, mt: 3 }}>
       <Stack
@@ -19,6 +27,10 @@ const SearchBar = () => {
       >
         <InputBase
           placeholder="Search"
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
           sx={{
             flex: 1,
             border: "1px solid #ddd",

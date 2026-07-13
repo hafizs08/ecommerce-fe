@@ -4,9 +4,20 @@ import {
   MenuItem,
   Stack,
   Button,
+  TextField,
 } from "@mui/material";
 
-const FilterBar = () => {
+interface Props {
+  filters: any;
+  setFilters: any;
+  onApply: () => void;
+}
+
+const FilterBar = ({
+  filters,
+  setFilters,
+  onApply,
+}: Props) => {
   return (
     <Paper sx={{ p: 2, mt: 3 }}>
       <Stack
@@ -16,41 +27,59 @@ const FilterBar = () => {
         }}
         spacing={2}
       >
-        <Select
+        <TextField
+          label="Min Price"
+          type="number"
           fullWidth
-          defaultValue="Electronics"
           size="small"
-        >
-          <MenuItem value="Electronics">
-            Electronics
-          </MenuItem>
-        </Select>
+          value={filters.minPrice}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              minPrice: e.target.value,
+            })
+          }
+        />
+
+        <TextField
+          label="Max Price"
+          type="number"
+          fullWidth
+          size="small"
+          value={filters.maxPrice}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              maxPrice: e.target.value,
+            })
+          }
+        />
 
         <Select
           fullWidth
-          defaultValue="All Brands"
           size="small"
+          value={filters.sortOrder}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              sortOrder: e.target.value,
+            })
+          }
         >
-          <MenuItem value="All Brands">
-            All Brands
+          <MenuItem value="asc">
+            Lowest Price
           </MenuItem>
-        </Select>
 
-        <Select
-          fullWidth
-          defaultValue="Price Range"
-          size="small"
-        >
-          <MenuItem value="Price Range">
-            Price Range
+          <MenuItem value="desc">
+            Highest Price
           </MenuItem>
         </Select>
 
         <Button
-          variant="outlined"
-          fullWidth
+          variant="contained"
+          onClick={onApply}
         >
-          Filters
+          Apply
         </Button>
       </Stack>
     </Paper>
